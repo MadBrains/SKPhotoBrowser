@@ -24,9 +24,9 @@ open class SKPhotoBrowser: UIViewController {
     // animation
     fileprivate let animator: SKAnimator = .init()
     
-    fileprivate var actionView: SKActionView!
-    fileprivate(set) var paginationView: SKPaginationView!
-    fileprivate var toolbar: SKToolbar!
+    var actionView: SKActionView!
+    var paginationView: SKPaginationView!
+    var toolbar: SKToolbar!
 
     // actions
     fileprivate var activityViewController: UIActivityViewController!
@@ -378,8 +378,8 @@ internal extension SKPhotoBrowser {
 
 // MARK: - Internal Function For Frame Calc
 
-internal extension SKPhotoBrowser {
-    func frameForToolbarAtOrientation() -> CGRect {
+public extension SKPhotoBrowser {
+    public func frameForToolbarAtOrientation() -> CGRect {
         let offset: CGFloat = {
             if #available(iOS 11.0, *) {
                 return view.safeAreaInsets.bottom
@@ -390,11 +390,11 @@ internal extension SKPhotoBrowser {
         return view.bounds.divided(atDistance: 44, from: .maxYEdge).slice.offsetBy(dx: 0, dy: -offset)
     }
     
-    func frameForToolbarHideAtOrientation() -> CGRect {
+    public func frameForToolbarHideAtOrientation() -> CGRect {
         return view.bounds.divided(atDistance: 44, from: .maxYEdge).slice.offsetBy(dx: 0, dy: 44)
     }
     
-    func frameForPageAtIndex(_ index: Int) -> CGRect {
+    public func frameForPageAtIndex(_ index: Int) -> CGRect {
         let bounds = pagingScrollView.bounds
         var pageFrame = bounds
         pageFrame.size.width -= (2 * 10)
@@ -405,7 +405,7 @@ internal extension SKPhotoBrowser {
 
 // MARK: - Internal Function For Button Pressed, UIGesture Control
 
-internal extension SKPhotoBrowser {
+public extension SKPhotoBrowser {
     @objc func panGestureRecognized(_ sender: UIPanGestureRecognizer) {
         guard let zoomingScrollView: SKZoomingScrollView = pagingScrollView.pageDisplayedAtIndex(currentPageIndex) else {
             return
@@ -520,8 +520,8 @@ internal extension SKPhotoBrowser {
 }
 
 // MARK: - Private Function
-private extension SKPhotoBrowser {
-    func configureAppearance() {
+public extension SKPhotoBrowser {
+    public func configureAppearance() {
         view.backgroundColor = bgColor
         view.clipsToBounds = true
         view.isOpaque = false
@@ -531,12 +531,12 @@ private extension SKPhotoBrowser {
         }
     }
     
-    func configurePagingScrollView() {
+    public func configurePagingScrollView() {
         pagingScrollView.delegate = self
         view.addSubview(pagingScrollView)
     }
 
-    func configureGestureControl() {
+    public func configureGestureControl() {
         guard !SKPhotoBrowserOptions.disableVerticalSwipe else { return }
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(SKPhotoBrowser.panGestureRecognized(_:)))
@@ -548,22 +548,22 @@ private extension SKPhotoBrowser {
         }
     }
     
-    func configureActionView() {
+    public func configureActionView() {
         actionView = SKActionView(frame: view.frame, browser: self)
         view.addSubview(actionView)
     }
 
-    func configurePaginationView() {
+    public func configurePaginationView() {
         paginationView = SKPaginationView(frame: view.frame, browser: self)
         view.addSubview(paginationView)
     }
     
-    func configureToolbar() {
+    public func configureToolbar() {
         toolbar = SKToolbar(frame: frameForToolbarAtOrientation(), browser: self)
         view.addSubview(toolbar)
     }
 
-    func setControlsHidden(_ hidden: Bool, animated: Bool, permanent: Bool) {
+    public func setControlsHidden(_ hidden: Bool, animated: Bool, permanent: Bool) {
         // timer update
         cancelControlHiding()
         
