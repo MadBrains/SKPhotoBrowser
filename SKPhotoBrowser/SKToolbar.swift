@@ -11,12 +11,12 @@ import Foundation
 // helpers which often used
 private let bundle = Bundle(for: SKPhotoBrowser.self)
 
-class SKToolbar: UIToolbar {
-    var toolActionButton: UIBarButtonItem!
+public class SKToolbar: UIToolbar {
+    public var toolActionButton: UIBarButtonItem!
     
     fileprivate weak var browser: SKPhotoBrowser?
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
